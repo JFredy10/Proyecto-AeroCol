@@ -14,6 +14,7 @@ export const VUELOS = [
     { id: 'v4', origen: 'MDE', destino: 'BOG', avion: 'ATR 72', hora: '09:05', precio: 260000 },
     { id: 'v5', origen: 'BOG', destino: 'MDE', avion: 'Boeing 737-800', hora: '13:10', precio: 340000 },
     { id: 'v6', origen: 'MDE', destino: 'CTG', avion: 'Airbus A320', hora: '12:30', precio: 320000 },
+    { id: 'v7', origen: 'MDE', destino: 'BOG', avion: 'Boeing 737-800', hora: '14:20', precio: 275000 },
 ]
 
 export const CLASES = [
