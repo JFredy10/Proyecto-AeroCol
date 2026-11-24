@@ -73,27 +73,31 @@ body {
 .nav-enlaces {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 24px;
 }
 
-.nav-enlace {
+.nav-enlace-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
   color: #ffffff;
-  text-decoration: none;
   font-size: 14px;
   font-weight: 500;
   opacity: 0.85;
-  padding-bottom: 4px;
+  padding: 6px 0;
   transition: opacity 0.2s, border-color 0.2s;
+  outline: none;
+  border-bottom: 3px solid transparent;
 }
 
-.nav-enlace:hover {
+.nav-enlace-btn:hover {
   opacity: 1;
 }
 
-.nav-enlace.activo {
+.nav-enlace-btn.activo {
   opacity: 1;
   font-weight: 600;
   border-bottom: 3px solid var(--color-accent);
@@ -751,6 +755,295 @@ body {
 }
 
 /* ==========================================================================
+   F2: Mis Reservas
+   ========================================================================== */
+
+.vista-reservas-contenedor {
+  max-width: 1120px;
+  margin: 20px auto 40px;
+  padding: 0 16px;
+  position: relative;
+  z-index: 10;
+}
+
+.seccion-mis-reservas {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Badge superior de Mis Reservas */
+.reservas-badge-header {
+  background-color: #dbeafe;
+  border-radius: var(--radius-md);
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 2px 8px rgba(5, 29, 64, 0.04);
+}
+
+.badge-izq {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.icono-maleta {
+  font-size: 22px;
+}
+
+.icono-avion-badge {
+  font-size: 22px;
+  color: var(--color-blue-selected);
+}
+
+.lista-reservas-grid {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Tarjeta individual de Reserva */
+.tarjeta-reserva {
+  background: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  box-shadow: 0 4px 14px rgba(5, 29, 64, 0.04);
+  transition: all 0.2s ease;
+}
+
+.tarjeta-reserva:hover {
+  box-shadow: 0 8px 22px rgba(5, 29, 64, 0.08);
+  border-color: #cbd5e1;
+}
+
+.reserva-thumb-col {
+  flex-shrink: 0;
+}
+
+.reserva-thumb-img {
+  width: 130px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  display: block;
+}
+
+.reserva-vuelo-col {
+  min-width: 170px;
+  flex: 1;
+}
+
+.reserva-avion-titulo {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--color-text-main);
+  line-height: 1.2;
+}
+
+.reserva-ruta-subtitulo {
+  margin: 3px 0 10px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.reserva-itinerario-row {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.itinerario-punto {
+  display: flex;
+  flex-direction: column;
+}
+
+.punto-hora {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-text-main);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.icono-tilted-plane {
+  font-size: 14px;
+  color: var(--color-primary);
+}
+
+.punto-ciudad {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.reserva-separador {
+  width: 1px;
+  height: 76px;
+  background-color: #cbd5e1;
+  flex-shrink: 0;
+  margin: 0 4px;
+}
+
+.reserva-pasajero-col {
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+}
+
+.reserva-dato-fila {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-main);
+}
+
+.icono-dato {
+  font-size: 15px;
+  color: var(--color-primary);
+}
+
+.reserva-total-col {
+  min-width: 150px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.reserva-total-etiqueta {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.reserva-total-valor {
+  font-size: 25px;
+  font-weight: 800;
+  color: var(--color-text-main);
+  line-height: 1.1;
+  margin: 2px 0 8px;
+}
+
+.btn-ver-detalles {
+  background: transparent;
+  border: 1.5px solid var(--color-primary);
+  color: var(--color-primary);
+  border-radius: var(--radius-pill);
+  padding: 6px 18px;
+  font-size: 12.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.15s;
+}
+
+.btn-ver-detalles:hover {
+  background-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.reserva-eliminar-col {
+  min-width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-eliminar-reserva {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  transition: all 0.15s;
+}
+
+.btn-eliminar-reserva:hover {
+  background-color: #fef2f2;
+  transform: scale(1.08);
+}
+
+.svg-papelera {
+  width: 24px;
+  height: 24px;
+  stroke: #dc2626;
+}
+
+.texto-eliminar {
+  font-size: 13px;
+  font-weight: 600;
+  color: #dc2626;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* Estado Vacío de Reservas */
+.estado-vacio-reservas {
+  background: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 44px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 14px rgba(5, 29, 64, 0.04);
+}
+
+.mensaje-vacio-texto {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.btn-ir-buscar {
+  background-color: var(--color-accent);
+  color: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 183, 0, 0.3);
+  transition: background-color 0.15s, transform 0.15s;
+}
+
+.btn-ir-buscar:hover {
+  background-color: var(--color-accent-hover);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
    Footer
    ========================================================================== */
 
@@ -806,12 +1099,14 @@ body {
     display: none;
   }
 
-  .tarjeta {
+  .tarjeta,
+  .tarjeta-reserva {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .tarjeta-separador {
+  .tarjeta-separador,
+  .reserva-separador {
     display: none;
   }
 }
