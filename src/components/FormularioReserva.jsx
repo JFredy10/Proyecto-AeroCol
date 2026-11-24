@@ -38,7 +38,7 @@ function FormularioReserva({ vuelo, nombreOrigen, nombreDestino, onReservar }) {
       </div>
 
       <div className="formulario-body">
-        {/* Resumen del vuelo seleccionado */}
+        {/* Reto 2 F3: Detalle del vuelo seleccionado (avión, hora, precio base, ruta) */}
         <div className="vuelo-resumen-mini">
           <img src={flightThumb} alt={vuelo.avion} className="mini-thumb" />
           <div className="mini-info">
@@ -49,11 +49,13 @@ function FormularioReserva({ vuelo, nombreOrigen, nombreDestino, onReservar }) {
             <p className="mini-ruta">
               {nombreOrigen} → {nombreDestino}
             </p>
+            <p className="mini-precio-base">
+              Base: $ {vuelo.precio.toLocaleString('es-CO')}
+            </p>
           </div>
         </div>
 
         <form onSubmit={manejarEnvio} className="formulario-campos">
-          {/* Nombre del pasajero */}
           <div className="campo-grupo">
             <label className="campo-etiqueta" htmlFor="nombre-pasajero">
               <span className="icono-campo">👤</span>
@@ -65,11 +67,10 @@ function FormularioReserva({ vuelo, nombreOrigen, nombreDestino, onReservar }) {
               className="campo-input-texto"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
-              placeholder="Ej. Ana García"
+              placeholder="Ana García"
             />
           </div>
 
-          {/* Cantidad de pasajeros */}
           <div className="campo-grupo">
             <label className="campo-etiqueta">
               <span className="icono-campo">👥</span>
@@ -97,7 +98,6 @@ function FormularioReserva({ vuelo, nombreOrigen, nombreDestino, onReservar }) {
             </div>
           </div>
 
-          {/* Selector de clase */}
           <div className="campo-grupo">
             <div className="clases-radios">
               <span className="icono-campo">💺</span>
@@ -116,14 +116,12 @@ function FormularioReserva({ vuelo, nombreOrigen, nombreDestino, onReservar }) {
             </div>
           </div>
 
-          {/* Total calculado (estado derivado) */}
           <div className="total-contenedor">
-            <span className="icono-total">💰</span>
+            <span className="icono-total">🪙</span>
             <span className="total-texto">Total:</span>
             <strong className="total-monto">$ {total.toLocaleString('es-CO')}</strong>
           </div>
 
-          {/* Botón de reserva */}
           <button type="submit" className="btn-reservar" disabled={!esValido}>
             ✓ Reservar
           </button>

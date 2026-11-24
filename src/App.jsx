@@ -10,7 +10,7 @@ import Footer from './components/Footer.jsx'
 
 const CLAVE_STORAGE = 'aerocol-reservas'
 
-// Carga inicial mediante función inicializadora (solo se ejecuta una vez al montar)
+// Carga inicial mediante función inicializadora
 function cargarReservas() {
   try {
     const guardadas = localStorage.getItem(CLAVE_STORAGE)
@@ -30,7 +30,10 @@ function App() {
   const [seleccionado, setSeleccionado] = useState(null)
   const [pestanaActiva, setPestanaActiva] = useState('inicio')
 
-  // Estado inmutable de reservas sincronizado con localStorage
+  // F3: Estado para el criterio de ordenamiento
+  const [orden, setOrden] = useState('precio-asc')
+
+  // F2: Estado inmutable de reservas sincronizado con localStorage
   const [reservas, setReservas] = useState(cargarReservas)
 
   const ciudadesDestino = CIUDADES.filter((c) => c.codigo !== origen)
@@ -38,6 +41,14 @@ function App() {
     origen !== '' && destino !== ''
       ? VUELOS.filter((v) => v.origen === origen && v.destino === destino)
       : []
+
+  // F3: Estado derivado - la lista ordenada se calcula siempre sobre una copia con spread [...]
+  const vuelosOrdenados = [...vuelosEncontrados].sort((a, b) => {
+    if (orden === 'precio-desc') return b.precio - a.precio
+    if (orden === 'hora') return a.hora.localeCompare(b.hora)
+    if (orden === 'avion') return a.avion.localeCompare(b.avion)
+    return a.precio - b.precio // por defecto 'precio-asc'
+  })
 
   const guardarReservasEnStorage = (nuevasReservas) => {
     try {
@@ -47,6 +58,7 @@ function App() {
     }
   }
 
+  // Al cambiar la ruta se limpia la selección, pero el criterio de orden se mantiene
   const manejarOrigen = (codigo) => {
     setOrigen(codigo)
     if (codigo === destino) setDestino('')
@@ -109,7 +121,7 @@ function App() {
             />
           </div>
         ) : (
-          /* Vista Principal: Búsqueda y Reserva F1 */
+          /* Vista Principal: Búsqueda (F3) y Reserva (F1) */
           <>
             <section className="selector-flotante">
               <div className="selector-tarjeta">
@@ -120,6 +132,8 @@ function App() {
                   ciudadesDestino={ciudadesDestino}
                   onOrigen={manejarOrigen}
                   onDestino={manejarDestino}
+                  orden={orden}
+                  onOrden={setOrden}
                 />
 
                 <div className="selector-acciones">
@@ -147,13 +161,13 @@ function App() {
               <p className="mensaje mensaje-info">
                 Elige origen y destino para buscar vuelos 🛫
               </p>
-            ) : vuelosEncontrados.length === 0 ? (
+            ) : vuelosOrdenados.length === 0 ? (
               <p className="mensaje mensaje-vacio">No hay vuelos para esa ruta 🙃</p>
             ) : (
               <div className={`layout-contenido ${seleccionado ? 'con-panel-reserva' : ''}`}>
                 <div className="columna-resultados">
                   <ListaVuelos
-                    vuelos={vuelosEncontrados}
+                    vuelos={vuelosOrdenados}
                     nombreOrigen={nombreCiudad(origen)}
                     nombreDestino={nombreCiudad(destino)}
                     vueloSeleccionado={seleccionado}

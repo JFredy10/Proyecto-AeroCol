@@ -594,6 +594,14 @@ body {
   color: var(--color-text-muted);
 }
 
+.mini-precio-base {
+  margin: 2px 0 0;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--color-blue-selected);
+}
+
+
 .formulario-campos {
   display: flex;
   flex-direction: column;
