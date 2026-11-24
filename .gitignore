@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Archivos de documentacion y guias locales
+docstuto.md
+guia.md
+cambios_fase_inicial.md
+
+

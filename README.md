@@ -1,16 +1,61 @@
-# React + Vite
+# ✈️ AeroCol — Reserva tu vuelo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web interactiva para la búsqueda y reserva de vuelos nacionales en Colombia, desarrollada en **React + Vite** como proyecto final del curso de **Desarrollo Front-End**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Árbol de Componentes
 
-## React Compiler
+```text
+                                App
+              (estados: origen, destino, seleccionado, reservas)
+        ┌───────────────┬─────────────────┼────────────────┬──────────────┐
+     <Header>    <SelectorRuta>     <ListaVuelos> <FormularioReserva> <Footer>
+                 /            \           │               │
+          <SelectCiudad> <SelectCiudad>   │       (vuelo, onReservar)
+             (origen)       (destino)     │
+                                    <TarjetaVuelo> ×N
+                               (seleccionado, onSeleccionar)
+```
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+##  Documentación F1 — Formulario de Reserva
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 1. ¿Dónde viven los estados del formulario y por qué?
+Viven de manera local dentro del componente `FormularioReserva` (`nombre`, `pasajeros`, `clase`). Nadie fuera del formulario necesita conocer lo que el usuario digita o selecciona hasta que presiona el botón **Reservar**, manteniendo el componente autocontenido y evitando re-renderizados innecesarios en `App`.
+
+### 2. ¿Por qué el total no es un `useState` más?
+Porque el total es un **estado derivado**. Al ser una operación matemática directa de valores que ya existen (`vuelo.precio * pasajeros * factor`), guardarlo en un `useState` generaría redundancia y riesgo de desincronización. Al calcularse en cada render, se actualiza automáticamente ante cualquier cambio de pasajeros o clase.
+
+### 3. ¿Qué prop le agregaste a `TarjetaVuelo` y para qué?
+Se le agregaron:
+- **`onSeleccionar`**: función callback que notifica a `App` qué vuelo fue seleccionado al hacer clic (*"los datos suben, las funciones bajan"*).
+- **`seleccionado`**: valor booleano que indica si esta tarjeta es la activa para aplicar la clase `.tarjeta.seleccionada` y mostrar el botón correspondiente.
+
+---
+
+##  Cómo ejecutar el proyecto
+
+1. **Instalar dependencias** (solo la primera vez):
+   ```bash
+   npm install
+   ```
+
+2. **Iniciar servidor de desarrollo**:
+   ```bash
+   npm run dev
+   ```
+   Abre [http://localhost:5173/](http://localhost:5173/) en tu navegador.
+
+3. **Verificación de calidad**:
+   ```bash
+   npm run lint
+   npm run build
+   ```
+
+---
+
+## Decisión de Diseño
+
+Para garantizar una experiencia de usuario moderna y limpia, se implementó una **disposición en dos columnas adaptativas**: los resultados de búsqueda se organizan a la izquierda y el formulario de reserva aparece fijado a la derecha en cuanto se selecciona un vuelo. Esto permite al usuario cambiar de vuelo o comparar precios sin perder de vista su formulario de reserva en tiempo real.
